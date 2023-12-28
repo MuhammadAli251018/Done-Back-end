@@ -19,8 +19,8 @@ sealed class Result<T> {
     }
 
     fun handleData(
-        onSuccess: (data: T) -> Unit,
-        onFailure: (Throwable) -> Unit
+        onSuccess: (data: T) -> T,
+        onFailure: (Throwable) -> Failure<T>
     ) = when (status) {
         Status.Success -> onSuccess((this as Success).data)
 
