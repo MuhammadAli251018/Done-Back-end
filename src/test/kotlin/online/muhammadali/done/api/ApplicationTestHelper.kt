@@ -7,8 +7,8 @@ import io.ktor.server.testing.*
 import kotlin.test.*
 import online.muhammadali.done.api.plugins.*
 
-class ApplicationTest {
-    @Test
+class ApplicationTestHelper {
+    @TestHelper
     fun testRoot() = testApplication {
         application {
             configureRouting()
