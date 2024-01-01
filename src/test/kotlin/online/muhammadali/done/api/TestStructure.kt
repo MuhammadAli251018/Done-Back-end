@@ -1,19 +1,25 @@
 package online.muhammadali.done.api
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-abstract class TestHelper <T> {
+abstract class TestStructure <T> {
 
-    abstract fun beforeTest()
+    abstract fun beforeAll()
+    abstract fun beforeEach()
     abstract fun initialize(): T
     abstract fun afterTest()
+
+    var firstTest = true
 
     inline fun runTest(
         testFunction: T.() -> Unit
     ) {
-        beforeTest()
+
+        if (firstTest) {
+            beforeAll()
+            firstTest = false
+        }
+        beforeEach()
         testFunction(initialize())
         afterTest()
     }
@@ -21,7 +27,11 @@ abstract class TestHelper <T> {
     inline fun runTestAsync(
         crossinline  testFunction: suspend T.() -> Unit,
     ) = runBlocking {
-        beforeTest()
+        if (firstTest) {
+            beforeAll()
+            firstTest = false
+        }
+        beforeEach()
         testFunction(initialize())
         afterTest()
     }
